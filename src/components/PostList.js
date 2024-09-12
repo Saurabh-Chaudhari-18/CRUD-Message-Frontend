@@ -129,7 +129,7 @@ const AllPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('https://your-backend-url/api/posts');
+        const response = await axios.get('http://localhost:5000/api/posts/api/posts');
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts', error);
@@ -140,7 +140,7 @@ const AllPosts = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://your-backend-url/api/posts/${id}`);
+      await axios.delete(`http://localhost:5000/api/posts/${id}`);
       setPosts(posts.filter(post => post._id !== id));
     } catch (error) {
       console.error('Error deleting post', error);
@@ -156,7 +156,7 @@ const AllPosts = () => {
   const handleUpdate = async (id) => {
     try {
       const updatedPost = { name: editedName, message: editedMessage };
-      await axios.put(`https://your-backend-url/api/posts/${id}`, updatedPost);
+      await axios.put(`http://localhost:5000/api/posts/${id}`, updatedPost);
       setPosts(posts.map(post => post._id === id ? updatedPost : post));
       setEditingPostId(null);
     } catch (error) {
