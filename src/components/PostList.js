@@ -165,38 +165,61 @@ const AllPosts = () => {
     }
   };
 
-  return (
+ return (
     <div className="posts-container">
-      <h2>All Posts</h2>
+      <Typography variant="h4" gutterBottom>All Posts</Typography>
       <ul>
         {posts.map(post => (
-          <li key={post._id}>
-            {editingPostId === post._id ? (
-              <div>
-                <input
-                  type="text"
-                  value={editedName}
-                  onChange={(e) => setEditedName(e.target.value)}
-                  placeholder="Edit name"
-                />
-                <textarea
-                  value={editedMessage}
-                  onChange={(e) => setEditedMessage(e.target.value)}
-                  placeholder="Edit message"
-                />
-                <button onClick={() => handleUpdate(post._id)}>Save</button>
-                <button onClick={() => setEditingPostId(null)}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                <h3>{post.name}</h3>
-                <p>{post.message}</p>
-                <p className="post-timestamp">Posted on: {formatDate(post.createdAt)}</p>
-                <button onClick={() => handleEdit(post)}>Edit</button>
-                <button onClick={() => handleDelete(post._id)}>Delete</button>
-              </div>
-            )}
-          </li>
+          <Card key={post._id} className="post-item">
+            <CardContent>
+              {editingPostId === post._id ? (
+                <div>
+                  <TextField
+                    fullWidth
+                    label="Edit Name"
+                    value={editedName}
+                    onChange={(e) => setEditedName(e.target.value)}
+                    margin="normal"
+                    variant="outlined"
+                  />
+                  <TextareaAutosize
+                    minRows={4}
+                    placeholder="Edit Message"
+                    value={editedMessage}
+                    onChange={(e) => setEditedMessage(e.target.value)}
+                    className="edit-textarea"
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleUpdate(post._id)}
+                    style={{ marginRight: '10px' }}
+                  >
+                    Save
+                  </Button>
+                  <Button variant="outlined" color="secondary" onClick={() => setEditingPostId(null)}>
+                    Cancel
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Typography variant="h5">{post.name}</Typography>
+                  <Typography variant="body1">{post.message}</Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleEdit(post)}
+                    style={{ marginRight: '10px' }}
+                  >
+                    Edit
+                  </Button>
+                  <Button variant="contained" color="secondary" onClick={() => handleDelete(post._id)}>
+                    Delete
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         ))}
       </ul>
     </div>
@@ -204,4 +227,3 @@ const AllPosts = () => {
 };
 
 export default AllPosts;
-
