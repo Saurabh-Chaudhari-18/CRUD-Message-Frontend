@@ -115,33 +115,28 @@ import axios from 'axios';
 import { Card, CardContent, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
 import './Posts.css';
 
-// Helper function to format the date and time
-const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-  return new Date(dateString).toLocaleDateString(undefined, options);
-};
-
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
-  const [editingPostId, setEditingPostId] = useState(null); // Track the post being edited
+  const [editingPostId, setEditingPostId] = useState(null);
   const [editedName, setEditedName] = useState('');
   const [editedMessage, setEditedMessage] = useState('');
 
   useEffect(() => {
-     const fetchPosts = async () => {
-       try {
-        const response = await axios.get('http://localhost:5000/api/posts');
-      setPosts(response.data);
-       } catch (error) {
-         console.error('Error fetching posts', error);
-       }
-     };
+    const fetchPosts = async () => {
+      try {
+        // Use environment-based API URL
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts`);
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching posts', error);
+      }
+    };
     fetchPosts();
-   }, []);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts/${id}`);
       setPosts(posts.filter(post => post._id !== id));
     } catch (error) {
       console.error('Error deleting post', error);
@@ -157,7 +152,7 @@ const AllPosts = () => {
   const handleUpdate = async (id) => {
     try {
       const updatedPost = { name: editedName, message: editedMessage };
-      await axios.put(`http://localhost:5000/api/posts/${id}`, updatedPost);
+      await axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts/${id}`, updatedPost);
       setPosts(posts.map(post => post._id === id ? updatedPost : post));
       setEditingPostId(null);
     } catch (error) {
@@ -165,7 +160,12 @@ const AllPosts = () => {
     }
   };
 
- return (
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  return (
     <div className="posts-container">
       <Typography variant="h4" gutterBottom>All Posts</Typography>
       <ul>
@@ -205,6 +205,10 @@ const AllPosts = () => {
                 <div>
                   <Typography variant="h5">{post.name}</Typography>
                   <Typography variant="body1">{post.message}</Typography>
+                  {/* Display the post creation date and time */}
+                  <Typography variant="body2" color="textSecondary">
+                    Posted on: {formatDate(post.createdAt)}
+                  </Typography>
                   <Button
                     variant="contained"
                     color="primary"
@@ -227,3 +231,4 @@ const AllPosts = () => {
 };
 
 export default AllPosts;
+
