@@ -206,7 +206,7 @@ const AllPosts = () => {
                   <Typography variant="h5">{post.name}</Typography>
                   <Typography variant="body1">{post.message}</Typography>
                   {/* Display the post creation date and time */}
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body1" color="textSecondary">
                     Posted on: {formatDate(post.createdAt)}
                   </Typography>
                   <Button
