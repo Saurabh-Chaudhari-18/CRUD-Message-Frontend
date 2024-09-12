@@ -127,16 +127,16 @@ const AllPosts = () => {
   const [editedMessage, setEditedMessage] = useState('');
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/posts/api/posts');
-        setPosts(response.data);
-      } catch (error) {
-        console.error('Error fetching posts', error);
-      }
-    };
+     const fetchPosts = async () => {
+       try {
+        const response = await axios.get('http://localhost:5000/api/posts');
+      setPosts(response.data);
+       } catch (error) {
+         console.error('Error fetching posts', error);
+       }
+     };
     fetchPosts();
-  }, []);
+   }, []);
 
   const handleDelete = async (id) => {
     try {
