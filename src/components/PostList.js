@@ -112,6 +112,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Card, CardContent, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
 import './Posts.css';
 
 // Helper function to format the date and time
